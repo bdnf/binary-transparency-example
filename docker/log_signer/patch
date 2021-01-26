@@ -1,0 +1,20 @@
+--- /go/pkg/mod/golang.org/x/sys@v0.0.0-20201214210602-f9fddec55a1e/unix/gccgo_c.c
++++ /go/pkg/mod/golang.org/x/sys@v0.0.0-20201214210602-f9fddec55a1e/unix/gccgo_c.c
+@@ -22,7 +22,7 @@
+ };
+
+ struct ret gccgoRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+-  __asm__(GOSYM_PREFIX GOPKGPATH ".realSyscall");
++  __asm__("golang.x2eorg..z2fx..z2fsys..z2funix.realSyscall");
+
+ struct ret
+ gccgoRealSyscall(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+@@ -36,7 +36,7 @@
+ }
+
+ uintptr_t gccgoRealSyscallNoError(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
+-  __asm__(GOSYM_PREFIX GOPKGPATH ".realSyscallNoError");
++  __asm__("golang.x2eorg..z2fx..z2fsys..z2funix.realSyscallNoError");
+
+ uintptr_t
+ gccgoRealSyscallNoError(uintptr_t trap, uintptr_t a1, uintptr_t a2, uintptr_t a3, uintptr_t a4, uintptr_t a5, uintptr_t a6, uintptr_t a7, uintptr_t a8, uintptr_t a9)
