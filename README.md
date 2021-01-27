@@ -49,7 +49,7 @@ Prerequisites:
 ```
 ./build.sh
 ```
-Note! It may take 10-15 minutes.
+Note! It may take 10-15 minutes to build the images.
 
 2. Start personality service.
 ```

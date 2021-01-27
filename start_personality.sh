@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker-compose -f docker-compose.override.yml up
+until docker-compose -f docker-compose.override.yml up; do sleep 5; done
 
