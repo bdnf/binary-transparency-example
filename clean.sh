@@ -2,4 +2,6 @@
 
 docker-compose down --remove-orphans
 
-docker delete network trillian-net
+docker network rm trillian-net
+
+rm -rf ./test-device

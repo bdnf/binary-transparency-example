@@ -20,12 +20,10 @@ services:
     ports:
      - "8000:8000"
     restart: always
-#    depends_on:
-#      - mysql
-#      - trillian-log-server
-#      - trillian-log-signer
-    # networks:
-    #  - trillian-net
+    depends_on:
+     # - mysql
+     - trillian-log-server
+     - trillian-log-signer
 
 networks:
   default:

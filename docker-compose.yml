@@ -10,6 +10,7 @@ services:
       - MYSQL_USER=test
       - MYSQL_PASSWORD=zaphod
     restart: always # keep the MySQL server running
+    
   trillian-log-server:
     build:
       context: .
@@ -88,7 +89,7 @@ services:
     depends_on:
       - mysql
     environment:
-      - SCONE_HEAP=2G
+      - SCONE_HEAP=4G
       - SCONE_LOG=7
       - SCONE_MODE=SIM
       - SCONE_VERSION=1
@@ -97,9 +98,8 @@ services:
     # networks:
     #  - trillian-net
 
+
 networks:
   default:
     external:
       name: trillian-net
-#    name: custom_network
-#     driver: bridge
