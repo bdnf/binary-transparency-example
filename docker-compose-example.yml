@@ -1,0 +1,82 @@
+version: "3.5"
+
+# This expects to be run as an override of trillian's example docker deployment.
+# See the README in the main directory for instructions.
+# This won't scale to multiple replicas without much more work.
+
+services:
+  monitor:
+    build:
+      context: .
+      dockerfile: ./binary_transparency/Dockerfile.monitor
+    entrypoint: ["/bin/monitor"]
+    command: [
+      "--logtostderr",
+      "--keyword=\"H4x0r3d\"",
+      "--ftlog=http://personality:8000"
+    ]
+    environment:
+      - SCONE_HEAP=1G
+      - SCONE_VERSION=1
+      - SCONE_MODE=SIM
+    restart: always
+
+  publisher:
+    build:
+      context: .
+      dockerfile: ./binary_transparency/Dockerfile.publisher
+    volumes:
+       - ./test-device:/tmp
+    entrypoint: ["/bin/publish"]
+    command: [
+      "--log_url=http://personality:8000",
+      "--logtostderr",
+      "--v=2",
+      "--timestamp=\"2020-10-10T15:30:20.10Z\"",
+      "--binary_path=/trillian/binary_transparency/firmware/testdata/firmware/dummy_device/example.wasm",
+      "--output_path=/tmp/update.ota",
+      "--device=dummy"
+    ]
+    environment:
+      - SCONE_HEAP=1G
+      - SCONE_VERSION=1
+      - SCONE_MODE=SIM
+
+  flash-tool:
+    build:
+      context: .
+      dockerfile: ./binary_transparency/Dockerfile.owner
+    volumes:
+      - ./test-device:/tmp
+      - ./test-device/dummy_device:/tmp/dummy_device
+    entrypoint: ["/bin/flash_tool"]
+    command: [
+      "--log_url=http://personality:8000",
+      "--logtostderr",
+      "--update_file=/tmp/update.ota",
+      "--device_storage=/tmp/dummy_device",
+      "--device=dummy",
+      "--force"
+    ]
+    environment:
+      - SCONE_HEAP=1G
+
+  device-boot:
+    build:
+      context: .
+      dockerfile: ./binary_transparency/Dockerfile.owner
+    volumes:
+      - ./test-device:/tmp
+      - ./test-device/dummy_device:/tmp/dummy_device
+    entrypoint: ["/bin/emulator"]
+    command: [
+      "--logtostderr",
+      "--dummy_storage_dir=/tmp/dummy_device"
+    ]
+    environment:
+      - SCONE_HEAP=1G
+
+networks:
+  default:
+      external:
+         name: trillian-net

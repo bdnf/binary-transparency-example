@@ -1,0 +1,17 @@
+FROM sconecuratedimages/crosscompilers:ubuntu18.04-scone5.0
+
+RUN apt-get update
+RUN apt-get install -y wget  git gcc
+
+RUN wget -P /tmp https://dl.google.com/go/go1.15.6.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf /tmp/go1.15.6.linux-amd64.tar.gz
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+RUN go version
+
+RUN git clone https://github.com/google/trillian-examples.git /trillian
+
+RUN cd /trillian/binary_transparency/firmware/cmd/ft_monitor/ && go build --compiler gccgo -o /bin/monitor
+
+ENTRYPOINT /bin/monitor
