@@ -10,7 +10,9 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 RUN go version
 
+ENV TRILLIAN_COMMIT_HASH f04cf2990c4c2ec84bcfeec3ef0a2a2a0508b7f5
 RUN git clone https://github.com/google/trillian-examples.git /trillian
+RUN cd /trillian && git reset --hard $TRILLIAN_COMMIT_HASH
 
 RUN cd /trillian/binary_transparency/firmware/cmd/flash_tool/ && go build --compiler gccgo -o /bin/flash_tool
 RUN cd /trillian/binary_transparency/firmware/cmd/emulator/dummy/ && go build --compiler gccgo -o /bin/emulator
