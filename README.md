@@ -42,6 +42,7 @@ To deploy services and to demonstrate binary transparency feature it is necessar
 
 - Install Docker and docker-compose
 - Ensure you have access to secure SCONE images (i.e. `crosscompilers`) to run this example in secure mode.
+- At least 8Gb of free RAM to start all example in SCONE SIM mode. Around 16Gb is necessary to seamlessly run all services in SCONE HW mode. Otherwise services may fail during start or during processing of log files.
 
 
 ### Terminal 1 - Set up Services:
