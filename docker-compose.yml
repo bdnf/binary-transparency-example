@@ -10,7 +10,7 @@ services:
       - MYSQL_USER=test
       - MYSQL_PASSWORD=zaphod
     restart: always # keep the MySQL server running
-    
+
   trillian-log-server:
     build:
       context: .
@@ -33,12 +33,10 @@ services:
     environment:
       - SCONE_HEAP=2G
       - SCONE_LOG=7
-      - SCONE_MODE=SIM
+      - SCONE_MODE=AUTO
       - SCONE_VERSION=1
-#    devices:
-#      - /dev/isgx
-    # networks:
-    #  - trillian-net
+    devices:
+      - /dev/isgx
 
   trillian-log-signer:
     build:
@@ -62,12 +60,10 @@ services:
     environment:
       - SCONE_HEAP=2G
       - SCONE_LOG=7
-      - SCONE_MODE=SIM
+      - SCONE_MODE=AUTO
       - SCONE_VERSION=1
- #   devices:
-  #    - /dev/isgx
-    # networks:
-    #  - trillian-net
+    devices:
+      - /dev/isgx
 
   trillian-map-server:
     build:
@@ -91,13 +87,10 @@ services:
     environment:
       - SCONE_HEAP=4G
       - SCONE_LOG=7
-      - SCONE_MODE=SIM
+      - SCONE_MODE=AUTO
       - SCONE_VERSION=1
-   # devices:
-    #  - /dev/isgx
-    # networks:
-    #  - trillian-net
-
+    # devices:
+    #   - /dev/isgx
 
 networks:
   default:

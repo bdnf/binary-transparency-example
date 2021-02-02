@@ -18,7 +18,7 @@ services:
     environment:
       - SCONE_HEAP=1G
       - SCONE_VERSION=1
-      - SCONE_MODE=SIM
+      - SCONE_MODE=AUTO
     restart: always
 
   publisher:
@@ -40,7 +40,9 @@ services:
     environment:
       - SCONE_HEAP=1G
       - SCONE_VERSION=1
-      - SCONE_MODE=SIM
+      - SCONE_MODE=AUTO
+    devices:
+      - /dev/isgx
 
   flash-tool:
     build:
@@ -60,6 +62,9 @@ services:
     ]
     environment:
       - SCONE_HEAP=1G
+      - SCONE_MODE=AUTO
+    devices:
+      - /dev/isgx
 
   device-boot:
     build:
@@ -75,6 +80,9 @@ services:
     ]
     environment:
       - SCONE_HEAP=1G
+      - SCONE_MODE=AUTO
+    devices:
+      - /dev/isgx
 
 networks:
   default:
