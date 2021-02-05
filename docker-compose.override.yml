@@ -7,8 +7,11 @@ version: "3.5"
 services:
   personality:
     build:
-      context: ./trillian-examples
-      dockerfile: ./binary_transparency/firmware/cmd/ft_personality/Dockerfile
+#      context: ./trillian-examples
+#      dockerfile: ./binary_transparency/firmware/cmd/ft_personality/Dockerfile
+    build:
+       context: ./binary_transparency/personality
+       dockerfile: Dockerfile.personality
     command: [
       "--alsologtostderr",
       "--v=2",
@@ -20,10 +23,14 @@ services:
     ports:
      - "8000:8000"
     restart: always
-    depends_on:
-     # - mysql
-     - trillian-log-server
-     - trillian-log-signer
+    environment:
+      - SCONE_HEAP=2G
+      - SCONE_LOG=7
+      - SCONE_MODE=AUTO
+      - SCONE_VERSION=1
+    devices:
+       - /dev/isgx
+
 
 networks:
   default:

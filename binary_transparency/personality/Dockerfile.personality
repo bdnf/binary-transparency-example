@@ -1,0 +1,27 @@
+# This dockerfile has some issues when is compiled with gccgo
+# one solution is to use alpine:3.13 or later with Go version 1.15.7
+FROM sconecuratedimages/crosscompilers:alpine3.11
+
+RUN apk update
+RUN apk add wget git go
+
+# Copy the latest go version
+COPY --from=golang:1.15-alpine /usr/local/go/ /usr/lib/go
+
+ENV TRILLIAN_COMMIT_HASH f04cf2990c4c2ec84bcfeec3ef0a2a2a0508b7f5
+
+ENV GOROOT /usr/lib/go
+ENV GOPATH /go
+ENV PATH /go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+RUN go version
+
+RUN git clone https://github.com/google/trillian-examples.git /trillian
+RUN cd /trillian && git reset --hard $TRILLIAN_COMMIT_HASH
+
+WORKDIR /trillian
+
+#RUN go get -u github.com/google/trillian-examples/binary_transparency/firmware/cmd/ft_personality/impl
+RUN cd ./binary_transparency/firmware/cmd/ft_personality && go build  --compiler gccgo -o /bin/personality
+
+ENTRYPOINT /bin/personality
